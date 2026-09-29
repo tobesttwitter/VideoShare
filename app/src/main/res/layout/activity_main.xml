@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:use_controller="false"
+        app:show_buffering="never"
         app:surface_type="surface_view"
         app:resize_mode="fill"
         app:layout_constraintTop_toTopOf="parent"
@@ -182,18 +183,75 @@
 
     </LinearLayout>
 
-    <!-- Debug Readout (Bottom-Left, Hidden by default) -->
+    <!-- Hold to Reveal Hint (Bottom-Right) -->
     <TextView
-        android:id="@+id/debugTextView"
+        android:id="@+id/holdToRevealTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#888888"
-        android:textSize="11sp"
-        android:padding="8dp"
-        android:background="#80000000"
-        android:visibility="gone"
+        android:text="Hold to reveal..."
+        android:textColor="#B0FFFFFF"
+        android:textSize="12sp"
+        android:padding="20dp"
+        android:alpha="0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Fullscreen Reveal Overlay -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/revealLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/revealTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="It was a prank 👋"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/revealSubtitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Thanks for playing along."
+                android:textColor="#CCCCCC"
+                android:textSize="16sp"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRestartPrank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="Restart prank"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
