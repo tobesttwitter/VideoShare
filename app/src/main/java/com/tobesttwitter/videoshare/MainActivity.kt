@@ -2,6 +2,8 @@ package com.tobesttwitter.videoshare
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.tobesttwitter.videoshare.databinding.ActivityMainBinding
+import java.util.Locale
 
 @UnstableApi
 class MainActivity : AppCompatActivity() {
@@ -21,6 +24,18 @@ class MainActivity : AppCompatActivity() {
     private var player: ExoPlayer? = null
 
     private var currentVideoSize: VideoSize = VideoSize.UNKNOWN
+
+    private var callSeconds = 0
+    private val handler = Handler(Looper.getMainLooper())
+    private val timerRunnable = object : Runnable {
+        override fun run() {
+            val minutes = callSeconds / 60
+            val secs = callSeconds % 60
+            binding.callStateTextView.text = String.format(Locale.US, "Connected %02d:%02d", minutes, secs)
+            callSeconds++
+            handler.postDelayed(this, 1000)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +56,22 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         initializePlayer()
+        startCallTimer()
     }
 
     override fun onStop() {
         super.onStop()
+        stopCallTimer()
         releasePlayer()
+    }
+
+    private fun startCallTimer() {
+        handler.removeCallbacks(timerRunnable)
+        handler.post(timerRunnable)
+    }
+
+    private fun stopCallTimer() {
+        handler.removeCallbacks(timerRunnable)
     }
 
     private fun initializePlayer() {
