@@ -1,5 +1,6 @@
 package com.tobesttwitter.videoshare
 
+import android.view.View
 import android.widget.TextView
 import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
@@ -21,6 +22,7 @@ object DebugReadout {
 
     fun setup(player: Player, textView: TextView) {
         currentTextView = textView
+        textView.visibility = if (BuildConfig.DEBUG) View.VISIBLE else View.GONE
         player.addListener(object : Player.Listener {
             override fun onVideoSizeChanged(videoSize: VideoSize) {
                 updateSourceSize(videoSize.width, videoSize.height, videoSize.unappliedRotationDegrees)
